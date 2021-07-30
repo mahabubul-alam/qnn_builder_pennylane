@@ -39,7 +39,7 @@ X = torch.tensor(X, requires_grad=True).float()
 y_hot = y_hot.float()
 
 batch_size = 30
-batches = len(y)/30
+batches = len(y)/batch_size
 
 data_loader = torch.utils.data.DataLoader(
     list(zip(X, y_hot)), batch_size=batch_size, shuffle=True, drop_last=True
