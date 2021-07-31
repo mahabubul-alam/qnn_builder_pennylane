@@ -1,1 +1,1 @@
-# qnn_circuits_pennylane
+### QNN Circuit Builder (Pennylane)
