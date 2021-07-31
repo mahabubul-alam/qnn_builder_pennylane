@@ -12,9 +12,9 @@ X = normalize(X, axis = 0, norm = 'max')
 y = data.target
 y_hot = tf.one_hot(y, depth=2)
 features = X.shape[-1]
+classes = max(y) + 1
 
 #build qnn model
-classes = 2
 qubit = 8
 layers = 2
 enc = 4 
