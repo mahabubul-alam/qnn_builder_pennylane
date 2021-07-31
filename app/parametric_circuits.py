@@ -9,13 +9,12 @@ def add_dummy_measurements(func):
     return inner
 
 class ParametricCircuitsPennylane:
-    def __init__(self, pqc = None, qubit = None, layers = None, test = False):
+    def __init__(self, pqc = None, qubit = None, layers = None):
         self.choices = [1, 2]
         assert pqc in self.choices
         self.pqc = pqc
         self.qubit = qubit
         self.layers = layers
-        self.test = test
     
     def get_pqc(self, weights):
         if self.pqc == 1:
@@ -58,4 +57,3 @@ if __name__ == '__main__':
     print(qnode.draw())
 else:
     test = False
-    
