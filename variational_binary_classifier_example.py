@@ -1,4 +1,3 @@
-import numpy as np
 from sklearn.datasets import load_breast_cancer
 from app import qnn_builder
 import pennylane as qml
