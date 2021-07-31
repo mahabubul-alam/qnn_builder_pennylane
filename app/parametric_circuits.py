@@ -1,6 +1,12 @@
 import pennylane as qml
 import numpy as np
 
+def add_dummy_measurements(func):
+    def inner(*args, **kwargs):
+        func(*args, **kwargs)
+        if test == True:
+            return qml.expval(qml.PauliY(0))
+    return inner
 
 class ParametricCircuitsPennylane:
     def __init__(self, pqc = None, qubit = None, layers = None, test = False):
@@ -23,10 +29,7 @@ class ParametricCircuitsPennylane:
         if self.pqc == 2:
             return (self.layers, self.qubit)
     
-    @staticmethod
-    def add_dummy_measurements():
-        return qml.expval(qml.PauliY(0))
-    
+    @add_dummy_measurements
     def __pqc_1(self, weights):
         assert weights.shape == self.weigths_shape()
         for l in range(self.layers):
@@ -34,10 +37,8 @@ class ParametricCircuitsPennylane:
                 qml.CNOT(wires=[i, (i + 1) %self.qubit])
             for j in range(self.qubit):
                 qml.RY(weights[l, j], wires = j % self.qubit)
-        
-        if self.test:
-            return self.add_dummy_measurements()
     
+    @add_dummy_measurements
     def __pqc_2(self, weights):
         assert weights.shape == self.find_weights_shape()
         for l in range(self.layers):
@@ -45,12 +46,9 @@ class ParametricCircuitsPennylane:
                 qml.CZ(wires=[i, (i + 1) %self.qubit])
             for j in range(self.qubit):
                 qml.RY(weights[l, j], wires = j % self.qubit)
-        
-        if self.test:
-            return self.add_dummy_measurements
-
 
 if __name__ == '__main__':
+    test = True
     pqc = ParametricCircuitsPennylane(pqc = 1, qubit = 2, layers = 3, test = True)
     weight_shape = pqc.weigths_shape()
     weights = np.random.random(weight_shape)
@@ -58,3 +56,6 @@ if __name__ == '__main__':
     qnode = qml.QNode(pqc.get_pqc, dev) #circuit
     qnode(weights)
     print(qnode.draw())
+else:
+    test = False
+    

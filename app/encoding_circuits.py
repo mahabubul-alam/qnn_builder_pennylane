@@ -1,14 +1,19 @@
 import pennylane as qml
 import numpy as np
 
+def add_dummy_measurements(func):
+    def inner(*args, **kwargs):
+        func(*args, **kwargs)
+        if test == True:
+            return qml.expval(qml.PauliY(0))
+    return inner
 
 class EncodingCircuitsPennylane:
-    def __init__(self, enc = None, qubit = None, test = False):
+    def __init__(self, enc = None, qubit = None):
         self.choices = [1, 2, 3, 4, 5]
         assert enc in self.choices
         self.enc = enc
         self.qubit = qubit
-        self.test = test
     
     def get_encoder(self, inputs):
         if self.enc == 1:
@@ -33,12 +38,8 @@ class EncodingCircuitsPennylane:
             return self.qubit * 4
         if self.enc == 5:
             return self.qubit
-        
     
-    @staticmethod
-    def add_dummy_measurements():
-        return qml.expval(qml.PauliY(0))
-    
+    @add_dummy_measurements
     def __encoder_1(self, inputs):
         assert len(inputs) <= self.max_inputs_length()
         encoding_gates = ['RZ']
@@ -48,10 +49,8 @@ class EncodingCircuitsPennylane:
                 exec('qml.{}({}, wires = {})'.format(encoding_gates[0], inputs[qub], qub))
             else: #load nothing
                     pass
-        
-        if self.test:
-            return self.add_dummy_measurements()
-    
+
+    @add_dummy_measurements
     def __encoder_2(self, inputs):
         assert len(inputs) <= self.max_inputs_length()
         encoding_gates = ['RZ', 'RX']
@@ -63,10 +62,8 @@ class EncodingCircuitsPennylane:
                     exec('qml.{}({}, wires = {})'.format(encoding_gates[i], inputs[qub * var_per_qubit + i], qub))
                 else: #load nothing
                     pass
-        
-        if self.test:
-            return self.add_dummy_measurements()
-    
+
+    @add_dummy_measurements
     def __encoder_3(self, inputs):
         assert len(inputs) <= self.max_inputs_length()
         encoding_gates = ['RZ', 'RX', 'RZ']
@@ -78,10 +75,8 @@ class EncodingCircuitsPennylane:
                     exec('qml.{}({}, wires = {})'.format(encoding_gates[i], inputs[qub * var_per_qubit + i], qub))
                 else: #load nothing
                     pass
-        
-        if self.test:
-            return self.add_dummy_measurements()
     
+    @add_dummy_measurements
     def __encoder_4(self, inputs):
         assert len(inputs) <= self.max_inputs_length()
         encoding_gates = ['RZ', 'RX', 'RZ', 'RX']
@@ -93,10 +88,8 @@ class EncodingCircuitsPennylane:
                     exec('qml.{}({}, wires = {})'.format(encoding_gates[i], inputs[qub * var_per_qubit + i], qub))
                 else: #load nothing
                     pass
-        
-        if self.test:
-            return self.add_dummy_measurements()
     
+    @add_dummy_measurements
     def __encoder_5(self, inputs):
         assert len(inputs) <= self.max_inputs_length()
         encoding_gates = ['RY']
@@ -105,17 +98,15 @@ class EncodingCircuitsPennylane:
                 exec('qml.{}({}, wires = {})'.format(encoding_gates[0], inputs[qub], qub))
             else: #load nothing
                     pass
-        
-        if self.test:
-            return self.add_dummy_measurements()
-    
-
 
 if __name__ == '__main__':
-    enc = EncodingCircuitsPennylane(enc = 4, qubit = 5, test = True)
+    test = True
+    enc = EncodingCircuitsPennylane(enc = 4, qubit = 5)
     inputs_length = enc.max_inputs_length()
     inputs = np.random.random(inputs_length)
     dev = qml.device("default.qubit", wires = 10) #target pennylane device
     qnode = qml.QNode(enc.get_encoder, dev) #circuit
     qnode(inputs)
     print(qnode.draw())
+else:
+    test = False
