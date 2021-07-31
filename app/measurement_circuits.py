@@ -1,5 +1,4 @@
 import pennylane as qml
-import numpy as np
 
 def add_dummy_gates(func):
     def inner(*args, **kwargs):
@@ -50,4 +49,3 @@ if __name__ == '__main__':
     print(qnode.draw())
 else:
     test = False
-    
