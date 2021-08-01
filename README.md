@@ -4,6 +4,15 @@ You can build QNN models with various encoding methods, parametric layer archite
 * https://github.com/mahabubul-alam/qnn_builder_pennylane/blob/main/app/pqc/parametric_circuits.py
 * https://github.com/mahabubul-alam/qnn_builder_pennylane/blob/main/app/measurement/measurement_circuits.py
 
+### Setup
+```
+git clone https://github.com/mahabubul-alam/qnn_builder_pennylane.git
+cd qnn_builder_pennylane
+conda create -n XX python=3.9.5
+conda activate XX
+pip install -r requirements.txt
+```
+
 ### How to Use
 
 Please follow this example: https://github.com/mahabubul-alam/qnn_builder_pennylane/blob/main/variational_binary_classifier_example.py
