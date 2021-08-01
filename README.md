@@ -7,3 +7,16 @@ You can build QNN models with various encoding methods, parametric layer archite
 ### How to Use
 
 Please follow this example: https://github.com/mahabubul-alam/qnn_builder_pennylane/blob/main/variational_binary_classifier_example.py
+
+```
+python variational_binary_classifier_example.py
+```
+
+```
+Epoch 1/3
+29/29 [==============================] - 113s 4s/step - loss: 0.1693
+Epoch 2/3
+29/29 [==============================] - 115s 4s/step - loss: 0.0882
+Epoch 3/3
+29/29 [==============================] - 113s 4s/step - loss: 0.0671
+```

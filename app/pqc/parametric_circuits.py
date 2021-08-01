@@ -16,7 +16,7 @@ class ParametricCircuitsPennylane:
         self.qubit = qubit
         self.layers = layers
     
-    def get_pqc(self, weights0, weights1 = 0):
+    def get_pqc(self, weights0, weights1):
         if self.pqc == 1:
             return self.__pqc_1(weights0)
         if self.pqc == 2:
