@@ -1,7 +1,7 @@
 import pennylane as qml
 import numpy as np
 
-def add_dummy_measurements(func):
+def add_dummy_measurements_for_test(func):
     def inner(*args, **kwargs):
         func(*args, **kwargs)
         if test == True:
@@ -28,7 +28,7 @@ class ParametricCircuitsPennylane:
         if self.pqc == 2:
             return (self.layers, self.qubit)
     
-    @add_dummy_measurements
+    @add_dummy_measurements_for_test
     def __pqc_1(self, weights):
         assert weights.shape == self.weigths_shape()
         for l in range(self.layers):
@@ -37,7 +37,7 @@ class ParametricCircuitsPennylane:
             for j in range(self.qubit):
                 qml.RY(weights[l, j], wires = j % self.qubit)
     
-    @add_dummy_measurements
+    @add_dummy_measurements_for_test
     def __pqc_2(self, weights):
         assert weights.shape == self.find_weights_shape()
         for l in range(self.layers):
@@ -48,7 +48,7 @@ class ParametricCircuitsPennylane:
 
 if __name__ == '__main__':
     test = True
-    pqc = ParametricCircuitsPennylane(pqc = 1, qubit = 2, layers = 3, test = True)
+    pqc = ParametricCircuitsPennylane(pqc = 1, qubit = 2, layers = 3)
     weight_shape = pqc.weigths_shape()
     weights = np.random.random(weight_shape)
     dev = qml.device("default.qubit", wires = 10) #target pennylane device

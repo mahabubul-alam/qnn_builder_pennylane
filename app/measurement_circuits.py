@@ -1,6 +1,6 @@
 import pennylane as qml
 
-def add_dummy_gates(func):
+def add_dummy_gates_for_test(func):
     def inner(*args, **kwargs):
         if test == True:
             qml.Hadamard(wires = 0)
@@ -24,19 +24,19 @@ class MeasurementCircuitsPennylane:
         if self.meas == 4:
             return self.__measurement_4()
     
-    @add_dummy_gates
+    @add_dummy_gates_for_test
     def __measurement_1(self):
         return [qml.expval(qml.PauliX(i)) for i in range(self.qubit)]
     
-    @add_dummy_gates
+    @add_dummy_gates_for_test
     def __measurement_2(self):
         return [qml.expval(qml.PauliY(i)) for i in range(self.qubit)]
     
-    @add_dummy_gates
+    @add_dummy_gates_for_test
     def __measurement_3(self):
         return [qml.expval(qml.PauliZ(i)) for i in range(self.qubit)]
     
-    @add_dummy_gates
+    @add_dummy_gates_for_test
     def __measurement_4(self):
         return qml.expval(qml.PauliZ(0))
         
