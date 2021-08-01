@@ -17,7 +17,7 @@ classes = max(y) + 1
 qubit = 8
 layers = 2
 enc = 4 
-pqc = 9
+pqc = 12
 meas = 3
 qnn = qnn_builder.PennylaneQNNCircuit(enc = enc, qubit = qubit, layers = layers, pqc = pqc, meas = meas)
 
@@ -30,7 +30,7 @@ weight_shape = qnn.pqc_builder.weigths_shape()
 if isinstance(weight_shape[0], tuple):
     ql_weights_shape = {'weights0': weight_shape[0], 'weights1': weight_shape[1]}
 else:
-    ql_weights_shape = {'weights0': weight_shape, 'weights1': 0}
+    ql_weights_shape = {'weights0': weight_shape, 'weights1': ()}
 dev = qml.device("default.qubit", wires = qubit) #target pennylane device
 qnode = qml.QNode(qnn.construct_qnn_circuit, dev) #circuit
 qlayer = qml.qnn.KerasLayer(qnode, ql_weights_shape, output_dim = qubit)
