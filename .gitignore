@@ -1,4 +1,5 @@
 __pycache__/
+app/__pycache__/
 app/encoder/__pycache__/
 app/pqc/__pycache__/
 app/measurement/__pycache__/
