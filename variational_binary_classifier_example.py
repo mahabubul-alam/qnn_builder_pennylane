@@ -17,8 +17,8 @@ classes = max(y) + 1
 qubit = 8
 layers = 2
 enc = 4 
-pqc = 12
-meas = 3
+pqc = 1
+meas = 5
 qnn = qnn_builder.PennylaneQNNCircuit(enc = enc, qubit = qubit, layers = layers, pqc = pqc, meas = meas)
 
 #check compatibility between the chosen model and the dataset
@@ -31,13 +31,16 @@ if isinstance(weight_shape[0], tuple):
     ql_weights_shape = {'weights0': weight_shape[0], 'weights1': weight_shape[1]}
 else:
     ql_weights_shape = {'weights0': weight_shape, 'weights1': ()}
+output_dim = qnn.meas_builder.output_dim()
+
 dev = qml.device("default.qubit", wires = qubit) #target pennylane device
 qnode = qml.QNode(qnn.construct_qnn_circuit, dev) #circuit
-qlayer = qml.qnn.KerasLayer(qnode, ql_weights_shape, output_dim = qubit)
+
+qlayer = qml.qnn.KerasLayer(qnode, ql_weights_shape, output_dim = output_dim)
 clayer = tf.keras.layers.Dense(classes, activation = 'softmax')
 model = tf.keras.models.Sequential([qlayer, clayer])
+
+#compile and train the model
 opt = tf.keras.optimizers.SGD(learning_rate = 0.5)
 model.compile(opt, loss = 'mse')
-
-#train the model
 model.fit(X, y_hot, epochs = 3, batch_size = 20)
