@@ -10,7 +10,7 @@ def add_dummy_measurements_for_test(func):
 
 class EncodingCircuitsPennylane:
     def __init__(self, enc = None, qubit = None):
-        self.choices = [1, 2, 3, 4, 5]
+        self.choices = [1, 2, 3, 4, 5, 6]
         assert enc in self.choices
         self.enc = enc
         self.qubit = qubit
@@ -26,6 +26,8 @@ class EncodingCircuitsPennylane:
             return self.__encoder_4(inputs)
         if self.enc == 5:
             return self.__encoder_5(inputs)
+        if self.enc == 6:
+            return self.__encoder_6(inputs)
 
     def max_inputs_length(self):
         if self.enc == 1:
@@ -38,6 +40,8 @@ class EncodingCircuitsPennylane:
             return self.qubit * 4
         if self.enc == 5:
             return self.qubit
+        if self.enc == 6:
+            return self.qubit * 8
     
     @add_dummy_measurements_for_test
     def __encoder_1(self, inputs):
@@ -97,6 +101,19 @@ class EncodingCircuitsPennylane:
             if qub < len(inputs):
                 exec('qml.{}({}, wires = {})'.format(encoding_gates[0], inputs[qub], qub))
             else: #load nothing
+                pass
+    
+    @add_dummy_measurements_for_test
+    def __encoder_6(self, inputs):
+        assert len(inputs) <= self.max_inputs_length()
+        encoding_gates = ['RZ', 'RX', 'RZ', 'RX', 'RZ', 'RX', 'RZ', 'RX']
+        var_per_qubit = 8
+        for qub in range(self.qubit):
+            qml.Hadamard(wires = qub)
+            for i in range(var_per_qubit):
+                if (qub * var_per_qubit + i) < len(inputs):
+                    exec('qml.{}({}, wires = {})'.format(encoding_gates[i], inputs[qub * var_per_qubit + i], qub))
+                else: #load nothing
                     pass
 
 if __name__ == '__main__':
