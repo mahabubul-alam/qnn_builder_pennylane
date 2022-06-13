@@ -50,9 +50,7 @@ class EncodingCircuitsPennylane:
         for qub in range(self.qubit):
             qml.Hadamard(wires = qub)
             if qub < len(inputs):
-                exec('qml.{}({}, wires = {})'.format(encoding_gates[0], inputs[qub], qub))
-            else: #load nothing
-                    pass
+                exec(f'qml.{encoding_gates[0]}({inputs[qub]}, wires = {qub})')
 
     @add_dummy_measurements_for_test
     def __encoder_2(self, inputs):
@@ -63,9 +61,9 @@ class EncodingCircuitsPennylane:
             qml.Hadamard(wires = qub)
             for i in range(var_per_qubit):
                 if (qub * var_per_qubit + i) < len(inputs):
-                    exec('qml.{}({}, wires = {})'.format(encoding_gates[i], inputs[qub * var_per_qubit + i], qub))
-                else: #load nothing
-                    pass
+                    exec(
+                        f'qml.{encoding_gates[i]}({inputs[qub * var_per_qubit + i]}, wires = {qub})'
+                    )
 
     @add_dummy_measurements_for_test
     def __encoder_3(self, inputs):
@@ -76,9 +74,9 @@ class EncodingCircuitsPennylane:
             qml.Hadamard(wires = qub)
             for i in range(var_per_qubit):
                 if (qub * var_per_qubit + i) < len(inputs):
-                    exec('qml.{}({}, wires = {})'.format(encoding_gates[i], inputs[qub * var_per_qubit + i], qub))
-                else: #load nothing
-                    pass
+                    exec(
+                        f'qml.{encoding_gates[i]}({inputs[qub * var_per_qubit + i]}, wires = {qub})'
+                    )
     
     @add_dummy_measurements_for_test
     def __encoder_4(self, inputs):
@@ -89,9 +87,9 @@ class EncodingCircuitsPennylane:
             qml.Hadamard(wires = qub)
             for i in range(var_per_qubit):
                 if (qub * var_per_qubit + i) < len(inputs):
-                    exec('qml.{}({}, wires = {})'.format(encoding_gates[i], inputs[qub * var_per_qubit + i], qub))
-                else: #load nothing
-                    pass
+                    exec(
+                        f'qml.{encoding_gates[i]}({inputs[qub * var_per_qubit + i]}, wires = {qub})'
+                    )
     
     @add_dummy_measurements_for_test
     def __encoder_5(self, inputs):
@@ -99,9 +97,7 @@ class EncodingCircuitsPennylane:
         encoding_gates = ['RY']
         for qub in range(self.qubit):
             if qub < len(inputs):
-                exec('qml.{}({}, wires = {})'.format(encoding_gates[0], inputs[qub], qub))
-            else: #load nothing
-                pass
+                exec(f'qml.{encoding_gates[0]}({inputs[qub]}, wires = {qub})')
     
     @add_dummy_measurements_for_test
     def __encoder_6(self, inputs):
@@ -112,9 +108,9 @@ class EncodingCircuitsPennylane:
             qml.Hadamard(wires = qub)
             for i in range(var_per_qubit):
                 if (qub * var_per_qubit + i) < len(inputs):
-                    exec('qml.{}({}, wires = {})'.format(encoding_gates[i], inputs[qub * var_per_qubit + i], qub))
-                else: #load nothing
-                    pass
+                    exec(
+                        f'qml.{encoding_gates[i]}({inputs[qub * var_per_qubit + i]}, wires = {qub})'
+                    )
 
 if __name__ == '__main__':
     test = True
