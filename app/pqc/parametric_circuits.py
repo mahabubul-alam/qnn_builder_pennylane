@@ -274,7 +274,7 @@ class ParametricCircuitsPennylane:
         for l in range(self.layers):
             for i in range(self.qubit):
                 qml.RY(weights0[l, i, 0], wires = i)
-            for i in range(0, self.qubit):
+            for i in range(self.qubit):
                 qml.CRZ(weights1[l, i, 0], wires = [i, (i + self.qubit - 1) % self.qubit])
             for i in range(self.qubit):
                 qml.RY(weights0[l, i, 1], wires = i)
@@ -297,7 +297,7 @@ class ParametricCircuitsPennylane:
         for l in range(self.layers):
             for i in range(self.qubit):
                 qml.RY(weights0[l, i, 0], wires = i)
-            for i in range(0, self.qubit):
+            for i in range(self.qubit):
                 qml.CRX(weights1[l, i, 0], wires = [i, (i + self.qubit - 1) % self.qubit])
             for i in range(self.qubit):
                 qml.RY(weights0[l, i, 1], wires = i)
@@ -319,7 +319,7 @@ class ParametricCircuitsPennylane:
         for l in range(self.layers):
             for i in range(self.qubit):
                 qml.RY(weights[l, i, 0], wires = i)
-            for i in range(0, self.qubit):
+            for i in range(self.qubit):
                 qml.CNOT(wires = [i, (i + self.qubit - 1) % self.qubit])
             for i in range(self.qubit):
                 qml.RY(weights[l, i, 1], wires = i)
@@ -368,7 +368,7 @@ class ParametricCircuitsPennylane:
             for i in range(self.qubit):
                 qml.RX(weights[l, i, 0], wires = i)
                 qml.RZ(weights[l, i, 1], wires = i)
-            for i in range(0, self.qubit):
+            for i in range(self.qubit):
                 qml.CRZ(weights[l, i, 2], wires = [i, (i + self.qubit - 1) % self.qubit])
     
     @add_dummy_measurements_for_test
@@ -378,7 +378,7 @@ class ParametricCircuitsPennylane:
             for i in range(self.qubit):
                 qml.RX(weights[l, i, 0], wires = i)
                 qml.RZ(weights[l, i, 1], wires = i)
-            for i in range(0, self.qubit):
+            for i in range(self.qubit):
                 qml.CRX(weights[l, i, 2], wires = [i, (i + self.qubit - 1) % self.qubit])    
 
 if __name__ == '__main__':
